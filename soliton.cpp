@@ -18,7 +18,7 @@ const int NX = LX/dx + 1;
 const double mu = 0.1;      //Mu from KdeV equation
 const double eps = 0.2;     //Epsilon from KdeV eq
 
-void get_memory(Matrix & malla);
+void get_memory(Matrix & u);
 void print(const Matrix & u);
 void initial_conditions(Matrix & u);
 void propagate(Matrix & u);
@@ -27,20 +27,13 @@ void init_gnuplot(void);
 int main (void)
 {
   Matrix grid;
-  //double eps = 1; //Precisión dada
-  //double MaxDif = 10*eps; //Máximo cambio en cada interación
   get_memory(grid);
   initial_conditions(grid);
-  //init_gnuplot();
+  init_gnuplot();
   print(grid);
-  //for (int n = 0; n < 3; ++n) {
-  //while(MaxDif > eps){
-  //std::cout.precision(4) ; 
-  //std::cout <<"Antes "<< std::setprecision(4) << MaxDif << std::endl;
-  propagate(grid);
-  //std::cout << "Después "<< MaxDif << std::endl;
-  print(grid); 
-  //}
+  //propagate(grid);
+  //init_gnuplot(); 
+  //print(grid); 
   return 0;
 }
 void get_memory(Matrix & u)
@@ -52,36 +45,10 @@ void get_memory(Matrix & u)
   }
 }
 
-
-void init_gnuplot(void)
-{
-  std::cout << "set terminal gif animate" << std::endl;
-  std::cout << "set out 'miprimeraanimacion.gif'" << std::endl;
-  std::cout << "set contour base" << std::endl;
-  std::cout << "set pm3d" << std::endl;
-}
-
-
-void print(const Matrix & u)
-{
-  std::cout << "splot '-' w l lw 2 " << std::endl;
-  double x, y;
-  for (int ii = 0; ii < NX; ++ii){
-    x = ii*dx;
-    for (int jj = 0; jj < NT; ++jj){
-      y = jj*dt;
-      std::cout << x << "  " << y << "  " <<  u[ii][jj] << std::endl;
-    }
-    std::cout << std::endl;
-  }
-  std::cout << "e" << std::endl;
-  std::cout << "pause mouse" << std::endl;
-}
-
 void initial_conditions(Matrix & u)
 {
-  int ii, jj, kk;
-  double a1, a2, a3, fac, time; 
+  int ii, jj;
+  double a1, a2, a3, fac; 
   
   //Initial conditions t=0
   // Initial wave form
@@ -96,7 +63,7 @@ void initial_conditions(Matrix & u)
   u[NX-1][1] = 0.;   
   u[NX-1][2] = 0.; 
   fac = mu*dt/(dx*dx*dx);              
-  time = dt;
+  //time = dt;
   
   // First time step
   for ( ii=1;  ii < NX-1;  ii++){
@@ -119,13 +86,11 @@ void initial_conditions(Matrix & u)
   } 
 } 
 
-
 void propagate(Matrix & u)
 {
-  int ii, jj, kk;
-  double uOld, uNew, Dif;
-  double a1, a2, a3, fac, time; 
-  
+  int ii, jj;
+  double a1, a2, a3, fac; 
+  fac = mu*dt/(dx*dx*dx);              
   // Other time steps
   for ( jj=2;  jj < NT-1;  jj++ )  {                    
     // time += dt; 
@@ -139,5 +104,30 @@ void propagate(Matrix & u)
       u[ii][jj+1] = u[ii][jj-1] - a1*a3 - 2.*fac*a2/3.;      
     }
   }
+}
+
+void init_gnuplot(void)
+{
+  std::cout << "reset" << std::endl;
+  std::cout << "set terminal gif animate" << std::endl;
+  std::cout << "set out 'Soliton.gif'" << std::endl;
+  std::cout << "set contour base" << std::endl;
+  std::cout << "set pm3d" << std::endl;
+}
+
+void print(const Matrix & u)
+{
+  std::cout << "splot '-' w l lw 2 " << std::endl;
+  double x, y;
+  for (int ii = 0; ii < NX; ++ii){
+    x = ii*dx;
+    for (int jj = 0; jj < NT; ++jj){
+      y = jj*dt;
+      std::cout << x << "  " << y << "  " <<  u[ii][jj] << std::endl;
+    }
+    std::cout << std::endl;
+  }
+  std::cout << "e" << std::endl;
+  // std::cout << "pause mouse" << std::endl;
 }
 
