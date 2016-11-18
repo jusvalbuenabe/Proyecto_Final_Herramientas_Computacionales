@@ -8,8 +8,8 @@ typedef std::vector<std::vector<double> > Matrix;
 
 const double dx = 0.4;
 const double dt = 0.1;
-const double Tmax = 5.*dt; //Time steps
-const double LX = 130.*dx;
+const double Tmax = 2000.*dt; //Time steps
+const double LX = 125.*dx;
 const int NT = Tmax/dt + 1;
 //const int NNT = 50;
 const int NX = LX/dx + 1;
@@ -24,6 +24,7 @@ void End_Points(Matrix & u);
 void First_Time_Step(Matrix & u);
 void propagate(Matrix & u, int & jj);
 void print(const Matrix & u);
+void print_contour(const Matrix & u);
 void init_gnuplot_contour(void);
 void init_gnuplot_3D(void);
 
@@ -32,19 +33,21 @@ int main (void)
   Matrix grid;
   get_memory(grid);
   initial_conditions(grid);
-  print(grid);
+  //print(grid);
   End_Points(grid);
-  print(grid);
+  //print(grid);
   First_Time_Step(grid);
-  init_gnuplot_3D();
-  print(grid);
+  // init_gnuplot_3D();
+  //print(grid);
   //print(grid);
   for ( int jj =1; jj<NT; jj++){
       propagate(grid, jj);
-      print(grid);
+      //print(grid);
   }
-  init_gnuplot_contour();
+  init_gnuplot_3D();
   print(grid);
+  init_gnuplot_contour();
+  print_contour(grid);
   return 0;
 }
 
@@ -60,7 +63,7 @@ void get_memory(Matrix & u)
 void initial_conditions(Matrix & u)
 {
   int ii, jj;
-    //Initial conditions t=0
+  //Initial conditions t=0
   // Initial wave form
   jj = 0;
   for ( ii = 0;  ii < NX;  ii++ ){
@@ -117,15 +120,16 @@ void propagate(Matrix & u, int & jj){
 void init_gnuplot_contour(void)
 {
   std::cout << "reset" << std::endl;
+  std::cout << "set terminal pdf" << std::endl;
+  std::cout << "set out 'SolitonP1_contour.pdf'" << std::endl;
   std::cout << "unset surface" << std::endl;
   std::cout << "set xlabel \" x \" " << std::endl;
   std::cout << "set ylabel \" t \" " << std::endl;
   std::cout << "set title \" Soliton \" " << std::endl;
-  // std::cout << "set terminal gif animate" << std::endl;
-  //std::cout << "set out 'miprimeraanimacion.gif'" << std::endl;
-  std::cout << "set contour base" << std::endl;
+  //std::cout << "set contour base" << std::endl;
   std::cout << "set view map" << std::endl;
-  std::cout << "set key at 0,0,0" << std::endl;
+  // std::cout << "set key at 0,0,0" << std::endl;
+  std::cout << "unset key" << std::endl;
   std::cout << "set cntrparam level incremental 0.0, 0.2, 1.2" << std::endl;
   std::cout << "set pm3d" << std::endl;
 }
@@ -133,26 +137,51 @@ void init_gnuplot_contour(void)
 void init_gnuplot_3D(void)
 {
   std::cout << "reset" << std::endl;
-  std::cout << "set contour base" << std::endl;
+  std::cout << "set terminal pdf" << std::endl;
+  std::cout << "set out 'SolitonP1_3D.pdf'" << std::endl;
   std::cout << "set xlabel \" x \" " << std::endl;
   std::cout << "set ylabel \" t \" " << std::endl;
   std::cout << "set title \" Soliton \" " << std::endl;
-  //std::cout << "set pm3d" << std::endl;
+  std::cout << "set pm3d" << std::endl;
   std::cout << "set pm3d depthorder hidden3d 1" << std::endl;
   std::cout << "set hidden3d" << std::endl;
   std::cout << "set style fill transparent solid 0.65" << std::endl;
   std::cout << "set palette rgb 9,9,3" << std::endl;
-  //std::cout << "unset colorbox" << std::endl;
-  //std::cout << "set xtics 0, 10, 50" << std::endl;
-  //std::cout << "set ytics 0, 0.5, 2" << std::endl;
+  std::cout << "unset colorbox" << std::endl;
+  //std::cout << "set xtics "<< std::endl;
+  //std::cout << "set xtics "<<0 <<", "<< LX <<","<< NT/80 << std::endl;
+  //std::cout << "set ytics "<< 0 <<", "<< Tmax <<","<< NX/2 << std::endl;
   //std::cout << "set isosamples 5" << std::endl;
   std::cout << "unset key" << std::endl;
   //std::cout << "unset border" << std::endl;
-  // std::cout << "unset tics" << std::endl;
-  //std::cout << "set ticslevel 0" << std::endl;
+  std::cout << "unset ztics" << std::endl;
+  std::cout << "set ticslevel 0" << std::endl;
+  std::cout << "set view 31 ,335" << std::endl;
 }
 
 void print(const Matrix & u)
+{
+  std::cout << "splot '-' w l lw 2 " << std::endl;
+  //std::cout << "pause mouse" << std::endl; 
+  double x, y;
+  int iip,jjp;
+  int NNT=NT/80.; // Cuantas Muestras en T
+  int NNX=NX/2.; // Cuantas Muestras en X
+  for (int ii = 0; ii < NNX; ++ii){
+    iip=ii*NX/NNX;
+    x = iip*dx;
+    for (int jj = 0; jj < NNT; ++jj){
+      jjp=jj*NT/NNT;
+      y = jjp*dt;
+      std::cout << x << "  " << y << "  " <<  u[iip][jjp] << std::endl;
+    }
+    std::cout << std::endl;
+  }
+  std::cout << "e" << std::endl;
+  //std::cout << "pause mouse" << std::endl;
+}
+
+void print_contour(const Matrix & u)
 {
   std::cout << "splot '-' w l lw 2 " << std::endl;
   //std::cout << "pause mouse" << std::endl; 
@@ -171,5 +200,5 @@ void print(const Matrix & u)
     std::cout << std::endl;
   }
   std::cout << "e" << std::endl;
-  std::cout << "pause mouse" << std::endl;
+  //std::cout << "pause mouse" << std::endl;
 }
