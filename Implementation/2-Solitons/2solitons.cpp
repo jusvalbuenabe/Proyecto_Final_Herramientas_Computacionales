@@ -122,11 +122,11 @@ void init_gnuplot_contour(void)
 {
   std::cout << "reset" << std::endl;
   std::cout << "set terminal pdf" << std::endl;
-  std::cout << "set out 'SolitonP1_contour.pdf'" << std::endl;
+  std::cout << "set out 'SolitonP2_contour.pdf'" << std::endl;
   std::cout << "unset surface" << std::endl;
   std::cout << "set xlabel \" x \" " << std::endl;
   std::cout << "set ylabel \" t \" " << std::endl;
-  std::cout << "set title \" Soliton \" " << std::endl;
+  //std::cout << "set title \" Soliton \" " << std::endl;
   //std::cout << "set contour base" << std::endl;
   std::cout << "set view map" << std::endl;
   // std::cout << "set key at 0,0,0" << std::endl;
@@ -139,10 +139,10 @@ void init_gnuplot_3D(void)
 {
   std::cout << "reset" << std::endl;
   std::cout << "set terminal pdf" << std::endl;
-  std::cout << "set out 'SolitonP1_3D.pdf'" << std::endl;
+  std::cout << "set out 'SolitonP2_3D.pdf'" << std::endl;
   std::cout << "set xlabel \" x \" " << std::endl;
   std::cout << "set ylabel \" t \" " << std::endl;
-  std::cout << "set title \" Soliton \" " << std::endl;
+  //std::cout << "set title \" Soliton \" " << std::endl;
   std::cout << "set pm3d" << std::endl;
   std::cout << "set pm3d depthorder hidden3d 1" << std::endl;
   std::cout << "set hidden3d" << std::endl;

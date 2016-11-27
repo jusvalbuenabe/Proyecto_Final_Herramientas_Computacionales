@@ -23,31 +23,23 @@ void initial_conditions(Matrix & u);
 void End_Points(Matrix & u);
 void First_Time_Step(Matrix & u);
 void propagate(Matrix & u, int & jj);
-void print(const Matrix & u);
-void print_contour(const Matrix & u);
-void init_gnuplot_contour(void);
-void init_gnuplot_3D(void);
+void print_gif(const Matrix & u, int & jj);
+void init_gnuplot(void);
 
 int main (void)
 {
   Matrix grid;
   get_memory(grid);
   initial_conditions(grid);
-  //print(grid);
   End_Points(grid);
-  //print(grid);
   First_Time_Step(grid);
-  // init_gnuplot_3D();
-  //print(grid);
-  //print(grid);
-  for ( int jj =1; jj<NT; jj++){
+  init_gnuplot();
+  int jj = 0;
+  print_gif(grid, jj);
+  for ( jj =1; jj<NT; jj++){
     propagate(grid, jj);
-    //print(grid);
+    print_gif(grid, jj);
   }
-  init_gnuplot_3D();
-  print(grid);
-  init_gnuplot_contour();
-  print_contour(grid);
   return 0;
 }
 
@@ -118,87 +110,27 @@ void propagate(Matrix & u, int & jj){
   }
 }
 
-void init_gnuplot_contour(void)
+void init_gnuplot(void)
 {
-  std::cout << "reset" << std::endl;
-  std::cout << "set terminal pdf" << std::endl;
-  std::cout << "set out 'SolitonP1_contour.pdf'" << std::endl;
-  std::cout << "unset surface" << std::endl;
-  std::cout << "set xlabel \" x \" " << std::endl;
-  std::cout << "set ylabel \" t \" " << std::endl;
-  std::cout << "set title \" Soliton \" " << std::endl;
+  std::cout << "set terminal gif animate" << std::endl;
+  std::cout << "set out 'Soliton1.gif'" << std::endl;
+  std::cout << "unset key" << std::endl;
   //std::cout << "set contour base" << std::endl;
-  std::cout << "set view map" << std::endl;
-  // std::cout << "set key at 0,0,0" << std::endl;
-  std::cout << "unset key" << std::endl;
-  std::cout << "set cntrparam level incremental 0.0, 0.2, 1.2" << std::endl;
-  std::cout << "set pm3d" << std::endl;
+  //std::cout << "set pm3d" << std::endl;
 }
 
-void init_gnuplot_3D(void)
+void print_gif(const Matrix & u, int & jj)
 {
-  std::cout << "reset" << std::endl;
-  std::cout << "set terminal pdf" << std::endl;
-  std::cout << "set out 'SolitonP1_3D.pdf'" << std::endl;
-  std::cout << "set xlabel \" x \" " << std::endl;
-  std::cout << "set ylabel \" t \" " << std::endl;
-  std::cout << "set title \" Soliton \" " << std::endl;
-  std::cout << "set pm3d" << std::endl;
-  std::cout << "set pm3d depthorder hidden3d 1" << std::endl;
-  std::cout << "set hidden3d" << std::endl;
-  std::cout << "set style fill transparent solid 0.65" << std::endl;
-  std::cout << "set palette rgb 9,9,3" << std::endl;
-  std::cout << "unset colorbox" << std::endl;
-  //std::cout << "set xtics "<< std::endl;
-  //std::cout << "set xtics "<<0 <<", "<< LX <<","<< NT/80 << std::endl;
-  //std::cout << "set ytics "<< 0 <<", "<< Tmax <<","<< NX/2 << std::endl;
-  //std::cout << "set isosamples 5" << std::endl;
-  std::cout << "unset key" << std::endl;
-  //std::cout << "unset border" << std::endl;
-  std::cout << "unset ztics" << std::endl;
-  std::cout << "set ticslevel 0" << std::endl;
-  std::cout << "set view 31 ,335" << std::endl;
-}
-
-void print(const Matrix & u)
-{
-  std::cout << "splot '-' w l lw 2 " << std::endl;
+  std::cout << "plot '-' w l lw 2 " << std::endl;
   //std::cout << "pause mouse" << std::endl; 
-  double x, y;
+  double x;
   int iip,jjp;
-  int NNT=NT/80.; // Cuantas Muestras en T
-  int NNX=NX/2.; // Cuantas Muestras en X
-  for (int ii = 0; ii < NNX; ++ii){
-    iip=ii*NX/NNX;
-    x = iip*dx;
-    for (int jj = 0; jj < NNT; ++jj){
-      jjp=jj*NT/NNT;
-      y = jjp*dt;
-      std::cout << x << "  " << y << "  " <<  u[iip][jjp] << std::endl;
-    }
-    std::cout << std::endl;
-  }
-  std::cout << "e" << std::endl;
-  //std::cout << "pause mouse" << std::endl;
-}
-
-void print_contour(const Matrix & u)
-{
-  std::cout << "splot '-' w l lw 2 " << std::endl;
-  //std::cout << "pause mouse" << std::endl; 
-  double x, y;
-  int iip,jjp;
-  int NNT=NT; // Cuantas Muestras en T
-  int NNX=NX; // Cuantas Muestras en X
-  for (int ii = 0; ii < NNX; ++ii){
-    iip=ii*NX/NNX;
-    x = iip*dx;
-    for (int jj = 0; jj < NNT; ++jj){
-      jjp=jj*NT/NNT;
-      y = jjp*dt;
-      std::cout << x << "  " << y << "  " <<  u[iip][jjp] << std::endl;
-    }
-    std::cout << std::endl;
+  for (int ii = 0; ii < NX; ++ii){
+    x = ii*dx;
+    jjp=jj*NT;
+    std::cout << x << "  " <<  u[ii][jj] << std::endl;
+    //}
+    //std::cout << std::endl;
   }
   std::cout << "e" << std::endl;
   //std::cout << "pause mouse" << std::endl;

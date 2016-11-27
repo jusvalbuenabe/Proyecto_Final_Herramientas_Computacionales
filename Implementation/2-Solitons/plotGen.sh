@@ -1,15 +1,15 @@
-g++ -std=c++11 -Wall solitonV1-Tex.cpp -o solitonV1-Tex.x 
+g++ -std=c++11 -Wall 2soliton-Tex.cpp -o 2soliton-Tex.x 
 
-./solitonV1-Tex.x | gnuplot 
+./2soliton-Tex.x | gnuplot 
 
-latex SolitonP1_3D.tex
-dvipdf SolitonP1_3D.dvi SolitonP1_3D.pdf
+latex SolitonP2_3D.tex
+dvipdf SolitonP2_3D.dvi SolitonP2_3D.pdf
 
-mv SolitonP1_3D.pdf imgs/SolitonP1_3D.pdf
-rm SolitonP1_3D.tex SolitonP1_3D.log SolitonP1_3D.aux SolitonP1_3D-inc.eps SolitonP1_3D.dvi
+mv SolitonP2_3D.pdf imgs/SolitonP2_3D.pdf
+rm SolitonP2_3D.tex SolitonP2_3D.log SolitonP2_3D.aux SolitonP2_3D-inc.eps SolitonP2_3D.dvi
 
-latex SolitonP1_Contour.tex
-dvipdf SolitonP1_Contour.dvi SolitonP1_Contour.pdf
+latex SolitonP2_Contour.tex
+dvipdf SolitonP2_Contour.dvi SolitonP2_Contour.pdf
 
-mv SolitonP1_Contour.pdf imgs/SolitonP1_Contour.pdf
-rm SolitonP1_Contour.tex SolitonP1_Contour.aux SolitonP1_Contour.log SolitonP1_Contour-inc.eps SolitonP1_Contour.dvi
+mv SolitonP2_Contour.pdf imgs/SolitonP2_Contour.pdf
+rm SolitonP2_Contour.tex SolitonP2_Contour.aux SolitonP2_Contour.log SolitonP2_Contour-inc.eps SolitonP2_Contour.dvi
