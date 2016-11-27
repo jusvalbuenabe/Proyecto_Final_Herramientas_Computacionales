@@ -1,4 +1,4 @@
-g++ -std=c++11 -Wall solitonV1-Tex.cpp -o solitonV1-Tex.x 
+g++ -std=c++11 -Wall -Werror solitonV1-Tex.cpp -o solitonV1-Tex.x 
 
 ./solitonV1-Tex.x | gnuplot 
 
