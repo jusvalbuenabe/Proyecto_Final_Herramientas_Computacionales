@@ -8,7 +8,7 @@ typedef std::vector<std::vector<double> > Matrix;
 
 const double dx = 0.4;
 const double dt = 0.1;
-const double Tmax = 2000.*dt; //Time steps
+const double Tmax = 2080.*dt; //Time steps
 const double LX = 130.*dx;
 const int NT = Tmax/dt + 1;
 //const int NNT = 50;
@@ -125,9 +125,9 @@ void init_gnuplot_contour(void)
   std::cout << "unset surface" << std::endl;
   std::cout << "set xlabel \" $x$ \" " << std::endl;
   std::cout << "set ylabel \" $t$ \" " << std::endl;
-  std::cout << "set ytics (0,50,100,150,200)"  << std::endl;//<<0 <<", "<< LX <<","<< NT/80 << std::endl;  
+  std::cout << "set ytics (0,40,80,120,160,200)"  << std::endl;//<<0 <<", "<< LX <<","<< NT/80 << std::endl;  
   std::cout << "set xtics (0,10,20,30,40,50)"  << std::endl;//<< 0 <<", "<< Tmax <<","<< NX/5 << std::endl;
-  std::cout << "set title \" Soliton \" " << std::endl;
+  // std::cout << "set title \" \" << std::endl;
   //std::cout << "set contour base" << std::endl;
   std::cout << "set view map" << std::endl;
   // std::cout << "set key at 0,0,0" << std::endl;
@@ -144,11 +144,11 @@ void init_gnuplot_3D(void)
   std::cout << "set terminal epslatex size 3.5,2.62 standalone color colortext" << std::endl;
   //std::cout << "set format '\\scriptsize ' " << std::endl;  
   std::cout << "set output 'SolitonP1_3D.tex'" << std::endl;
-  std::cout << "set title \" Soliton \" " << std::endl;
+  //std::cout << "set title \" Soliton \" " << std::endl;
   std::cout << "unset key" << std::endl;
   std::cout << "set xlabel \" $x$ \" " << std::endl;
   std::cout << "unset ztics" << std::endl;   
-  std::cout << "set ytics (0,50,100,150,200)"  << std::endl;//<<0 <<", "<< LX <<","<< NT/80 << std::endl;
+  std::cout << "set ytics (0,40,80,120,160,200)"  << std::endl;//<<0 <<", "<< LX <<","<< NT/80 << std::endl;
   std::cout << "set ylabel \" $t$ \" " << std::endl;
   std::cout << "set xtics (0,10,20,30,40,50)"  << std::endl;//<< 0 <<", "<< Tmax <<","<< NX/5 << std::endl;
   std::cout << "set pm3d" << std::endl;
