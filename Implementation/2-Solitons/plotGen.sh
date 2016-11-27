@@ -1,4 +1,4 @@
-g++ -std=c++11 -Wall 2soliton-Tex.cpp -o 2soliton-Tex.x 
+g++ -std=c++11 -Wall -Werror 2soliton-Tex.cpp -o 2soliton-Tex.x 
 
 ./2soliton-Tex.x | gnuplot 
 
